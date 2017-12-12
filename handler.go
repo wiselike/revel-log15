@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/go-stack/stack"
+	"gopkg.in/stack.v0"
 )
 
 // A Logger prints its log records by writing to a Handler.
