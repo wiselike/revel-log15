@@ -13,7 +13,7 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - uses: actions/checkout@v3
       with:
-         path: './src/github.com/inconshreveable/log15'
+         path: './src/github.com/wiselike/revel-log15'
     # staticcheck needs this for GOPATH
     - run: |
         echo "GOPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
@@ -24,4 +24,4 @@ jobs:
         go get -t -d ./...
         go vet ./...
         go test -race ./...
-      working-directory: './src/github.com/inconshreveable/log15'
+      working-directory: './src/github.com/wiselike/revel-log15'
