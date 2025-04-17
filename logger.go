@@ -2,6 +2,7 @@ package log15
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"gopkg.in/stack.v0"
@@ -14,8 +15,10 @@ const lvlKey = "lvl"
 const msgKey = "msg"
 const errorKey = "LOG15_ERROR"
 
+// Lvl is a type for predefined log levels.
 type Lvl int
 
+// List of predefined log Levels
 const (
 	LvlCrit Lvl = iota
 	LvlError
@@ -42,7 +45,7 @@ func (l Lvl) String() string {
 	}
 }
 
-// Returns the appropriate Lvl from a string name.
+// LvlFromString returns the appropriate Lvl from a string name.
 // Useful for parsing command line args and configuration files.
 func LvlFromString(lvlString string) (Lvl, error) {
 	switch lvlString {
@@ -57,7 +60,12 @@ func LvlFromString(lvlString string) (Lvl, error) {
 	case "crit":
 		return LvlCrit, nil
 	default:
-		return LvlDebug, fmt.Errorf("Unknown level: %v", lvlString)
+		// try to catch e.g. "INFO", "WARN" without slowing down the fast path
+		lower := strings.ToLower(lvlString)
+		if lower != lvlString {
+			return LvlFromString(lower)
+		}
+		return LvlDebug, fmt.Errorf("log15: unknown level: %v", lvlString)
 	}
 }
 
@@ -71,6 +79,7 @@ type Record struct {
 	KeyNames RecordKeyNames
 }
 
+// RecordKeyNames are the predefined names of the log props used by the Logger interface.
 type RecordKeyNames struct {
 	Time string
 	Msg  string
