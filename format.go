@@ -100,11 +100,8 @@ func logfmt(buf *bytes.Buffer, ctx []interface{}, color int) {
 			buf.WriteByte(' ')
 		}
 
-		k, ok := ctx[i].(string)
+		k := formatLogfmtValue(ctx[i])
 		v := formatLogfmtValue(ctx[i+1])
-		if !ok {
-			k, v = errorKey, formatLogfmtValue(k)
-		}
 
 		// XXX: we should probably check that all of your key bytes aren't invalid
 		if color > 0 {
