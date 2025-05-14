@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"sync"
 
-	"gopkg.in/stack.v0"
+	"github.com/go-stack/stack"
 )
 
 // Handler interface defines where and how log records are written.
